@@ -52,7 +52,7 @@ body {
   background: var(--white);
 }
 
-/* Desktop Desktop Outer Card styling */
+/* Desktop Outer Card styling */
 @media (min-width: 769px) {
   .app {
     height: 94vh;
@@ -409,8 +409,8 @@ form button:hover { background: var(--blue); }
 
   /* ---------- Config ---------- */
   const PITCH = 0.85, RATE = 0.95;
-  const CHIPS = ['नमस्ते', 'कैसे हो?', 'तुझे किसने बनाया?', 'टाइम क्या हुआ?', 'आज की तारीख', 'चुटकुला सुनाओ'];
-  const FALLBACK = 'हाँ भाई, मैं आपकी बात समझ रहा हूँ! बताइए और क्या बातचीत करनी है?';
+  const CHIPS = ['HTML क्या है?', 'CSS क्या है?', 'JavaScript क्या है?', 'Python क्या है?', 'C++ क्या है?', 'Node.js क्या है?', 'नमस्ते', 'टाइम क्या हुआ?', 'चुटकुला सुनाओ'];
+  const FALLBACK = 'हाँ भाई, मैं आपकी बात समझ रहा हूँ! कोडिंग या नॉर्मल बातचीत से जुड़ा कोई भी सवाल पूछिए, मैं पूरी मदद करूंगा!';
 
   /* ---------- Elements ---------- */
   const $ = id => document.getElementById(id);
@@ -504,7 +504,7 @@ form button:hover { background: var(--blue); }
     if (muted && synth) { synth.cancel(); if (state === 'speaking') setState('idle'); }
   });
 
-  /* ---------- Intent engine ---------- */
+  /* ---------- Intent engine & Programming QA ---------- */
   const pick = a => a[Math.floor(Math.random() * a.length)];
   const norm = s => ' ' + s.toLowerCase().replace(/[^\p{L}\p{M}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim() + ' ';
   const has = (t, list) => list.some(k => t.includes(k));
@@ -561,6 +561,45 @@ form button:hover { background: var(--blue); }
     { name: 'thanks',
       test: t => has(t, ['thank', 'shukriya', 'dhanyavad', 'शुक्रिया', 'धन्यवाद', 'थैंक']),
       reply: () => 'अरे भाई, इसमें शुक्रिया कैसा! दादा हमेशा आपकी सेवा में हाज़िर है।' },
+    
+    /* ---- Programming & Tech Q&A Intents ---- */
+    { name: 'html_info',
+      test: t => has(t, ['html kya hai', 'what is html', 'html kya hota hai', 'html over', 'एचटीएमएल क्या है']),
+      reply: () => 'HTML का मतलब HyperText Markup Language है। यह किसी भी वेबसाइट का ढांचा या स्केलेटन तैयार करने के काम आती है, जैसे वेबपेज पर टेक्स्ट, इमेज और लिंक्स डालना।' },
+    { name: 'css_info',
+      test: t => has(t, ['css kya hai', 'what is css', 'css kya hota hai', 'सीएसएस क्या है']),
+      reply: () => 'CSS का मतलब Cascading Style Sheets है। इसका इस्तेमाल वेबसाइट को सुंदर और डिज़ाइनदार बनाने के लिए किया जाता है, जैसे रंग-रूप, लेआउट और एनिमेशन सेट करना।' },
+    { name: 'js_info',
+      test: t => has(t, ['javascript kya hai', 'what is javascript', 'js kya hai', 'जावास्क्रिप्ट क्या है']),
+      reply: () => 'JavaScript एक पावरफुल प्रोग्रामिंग लैंग्वेज है जो वेबसाइट्स में जान डालती है। इसकी मदद से वेबपेज पर यूजर के क्लिक करने पर एक्शन, पॉपअप, और डायनेमिक फीचर्स काम करते हैं।' },
+    { name: 'python_info',
+      test: t => has(t, ['python kya hai', 'what is python', 'पायथन क्या है', 'पाइथन क्या है']),
+      reply: () => 'Python एक बहुत ही पॉपुलर, आसान और दमदार प्रोग्रामिंग लैंग्वेज है। इसका इस्तेमाल AI, मशीन लर्निंग, वेब डेवलपमेंट, डेटा साइंस और ऑटोमेशन में सबसे ज्यादा होता है।' },
+    { name: 'cpp_info',
+      test: t => has(t, ['c++ kya hai', 'what is c++', 'cpp kya hai', 'सी प्लस प्लस क्या है', 'c plus plus']),
+      reply: () => 'C++ एक हाई-परफॉर्मेंस ऑब्जेक्ट-ओरिएंटेड प्रोग्रामिंग लैंग्वेज है। इसका इस्तेमाल गेम डेवलपमेंट, सिस्टम सॉफ्टवेयर, और कॉम्पिटिटिव प्रोग्रामिंग में बहुत होता है।' },
+    { name: 'java_info',
+      test: t => has(t, ['java kya hai', 'what is java', 'जावा क्या है']),
+      reply: () => 'Java एक ऑब्जेक्ट-ओरिएंटेड, सिक्योर और प्लेटफॉर्म-इंडिपेंडेंट प्रोग्रामिंग लैंग्वेज है। इसका उपयोग एंड्रॉइड ऐप डेवलपमेंट और बड़े एंटरप्राइज सॉफ्टवेयर बनाने में किया जाता है।' },
+    { name: 'nodejs_info',
+      test: t => has(t, ['node js kya hai', 'nodejs kya hai', 'what is node.js', 'नोड जेएस क्या है']),
+      reply: () => 'Node.js जावास्क्रिप्ट का एक रनटाइम एनवायरनमेंट है, जिसकी मदद से हम ब्राउज़र के बाहर सर्वर साइड पर भी जावास्क्रिप्ट कोड चला सकते हैं और बैकएंड बना सकते हैं।' },
+    { name: 'react_info',
+      test: t => has(t, ['react kya hai', 'reactjs kya hai', 'what is react', 'रिएक्ट क्या है']),
+      reply: () => 'React एक पॉपुलर JavaScript लाइब्रेरी है जिसे Facebook ने बनाया है। इसका उपयोग यूजर इंटरफेस (UI) और सिंगल पेज वेब एप्लीकेशन बनाने के लिए किया जाता है।' },
+    { name: 'sql_info',
+      test: t => has(t, ['sql kya hai', 'database kya hai', 'what is sql', 'database', 'एसक्यूएल क्या है']),
+      reply: () => 'SQL का मतलब Structured Query Language है। इसका उपयोग डेटाबेस में डेटा को स्टोर करने, खोजने, अपडेट करने और मैनेज करने के लिए किया जाता है।' },
+    { name: 'git_info',
+      test: t => has(t, ['git kya hai', 'github kya hai', 'version control', 'गिट क्या है']),
+      reply: () => 'Git एक वर्जन कंट्रोल सिस्टम है जो कोड के इतिहास को ट्रैक करता है, और GitHub एक क्लाउड प्लेटफॉर्म है जहाँ हम अपने प्रोजेक्ट के रिपॉजिटरी को स्टोर और शेयर करते हैं।' },
+    { name: 'dsa_info',
+      test: t => has(t, ['dsa kya hai', 'data structures and algorithms', 'dsa']),
+      reply: () => 'DSA का मतलब Data Structures and Algorithms है। यह कोडिंग का सबसे महत्वपूर्ण हिस्सा है जो किसी भी सॉफ्टवेयर इंजीनियर को प्रॉब्लम-सॉल्विंग में एक्सपर्ट बनाता है।' },
+    { name: 'programming_general',
+      test: t => has(t, ['programming kya hai', 'coding kya hai', 'software engineer kaise bane', 'coding', 'प्रोग्रामिंग क्या है', 'कोडिंग क्या है']),
+      reply: () => 'कोडिंग और प्रोग्रामिंग का मतलब कंप्यूटर को निर्देश देना है ताकि वह हमारे हिसाब से काम कर सके। सॉफ्टवेयर इंजीनियर बनने के लिए लॉजिक बनाना और किसी एक भाषा जैसे C++ या Python में पक्की पकड़ होना जरूरी है।' },
+
     { name: 'greeting',
       test: t => word(t, ['hi', 'hello', 'hey', 'namaste', 'namaskar', 'hii', 'hlo', 'नमस्ते', 'नमस्कार', 'हेलो', 'हैलो', 'हाय', 'हे', 'प्रणाम', 'राम']) || has(t, ['good morning', 'good evening', 'good afternoon', 'सुप्रभात', 'राम राम']),
       reply: () => pick(['हेलो भाई! क्या हाल चाल हैं?', 'नमस्ते जी! दादा हाज़िर है, बोलिए क्या सेवा करूँ?', 'अरे वाह, आप आ गए! हेलो हेलो, कैसे हैं?']) }
@@ -623,7 +662,7 @@ form button:hover { background: var(--blue); }
   });
 
   /* ---------- Welcome ---------- */
-  addMsg('bot', 'नमस्ते! मैं दादा हूँ। माइक दबाइए और मुझसे बात कीजिए, या नीचे के सुझावों में से कुछ चुनिए।');
+  addMsg('bot', 'नमस्ते! मैं दादा हूँ। माइक दबाइए और मुझसे कोडिंग, प्रोग्रामिंग या सामान्य बातचीत कीजिए!');
 })();
 </script>
 </body>
